@@ -2,17 +2,19 @@
 services:
   frontend:
     build:
-      context: ../BarcelonaFrontEnd  # Path to the frontend project relative to BarcelonaCompose
-      dockerfile: src/Dockerfile      # Path to Dockerfile inside the frontend repo
+      context: ../BarcelonaFrontEnd
+      dockerfile: src/Dockerfile
     ports:
-      - "4200:80"  # Angular app will be available at http://localhost:4200
+      - "4200:80"
     depends_on:
       - backend
 
   backend:
     build:
-      context: ../BarcelonaBackEnd    # Path to the backend project relative to BarcelonaCompose
-      dockerfile: BarcelonaBackEnd/Dockerfile      # Path to Dockerfile inside the backend repo
+      context: ../BarcelonaBackEnd
+      dockerfile: BarcelonaBackEnd/Dockerfile
     ports:
-      - "5209:80"  # Exposing backend on http://localhost:5209
-      - "7189:443" # Exposing backend on https://localhost:7189 (for HTTPS)
+      - "8080:8080"  # Make internal and external port the same for consistency
+      - "7189:443"  # HTTPS port
+    environment:
+      - ASPNETCORE_LOGGING__CONSOLE__LOGLEVEL__MICROSOFT_ASPNETCORE_SIGNALR=Debug
